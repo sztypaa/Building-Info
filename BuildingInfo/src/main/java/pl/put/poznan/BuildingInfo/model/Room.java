@@ -30,6 +30,7 @@ public class Room extends Location{
         this.area = area;
     }
 
+    @Override
     public int getVolume() {
         return volume;
     }

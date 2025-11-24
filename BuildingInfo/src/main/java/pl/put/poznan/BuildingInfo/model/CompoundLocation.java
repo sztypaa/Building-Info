@@ -65,6 +65,11 @@ public class CompoundLocation extends Location {
     }
 
     @Override
+    public int getVolume() {
+        return children.stream().map(Location::getVolume).reduce(0, Integer::sum);
+    }
+
+    @Override
     public String printAll() {
         return this.printAll("", true, true);
     }

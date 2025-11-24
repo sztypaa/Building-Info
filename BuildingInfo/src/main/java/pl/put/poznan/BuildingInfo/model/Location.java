@@ -29,6 +29,8 @@ public abstract class Location {
         return name;
     }
 
+    public abstract int getVolume();
+
     public abstract String print();
 
     protected abstract String print(String indent, boolean last, boolean start);

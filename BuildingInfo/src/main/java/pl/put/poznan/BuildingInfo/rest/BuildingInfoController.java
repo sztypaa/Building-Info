@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory; /*TODO*/
 import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.BuildingInfo.logic.BuildingInfo;
 import pl.put.poznan.BuildingInfo.model.Location;
@@ -30,7 +30,13 @@ public class BuildingInfoController {
 
         buildingInfo.save(location);
 
-        return location.printAll();
+        return location.printAll() + "\n";
+    }
+
+    @GetMapping(value = "getVolume")
+    @ResponseBody
+    public String getVolume(@RequestParam int locationId) {
+        return buildingInfo.getLocationById(locationId).getVolume() + "\n";
     }
 
 }
