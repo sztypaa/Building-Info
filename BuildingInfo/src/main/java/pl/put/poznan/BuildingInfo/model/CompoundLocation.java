@@ -2,44 +2,100 @@ package pl.put.poznan.BuildingInfo.model;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.UUID;
 
-public class CompoundLocation implements Location {
-    private UUID id;
-    private String name;
-    private List<Location> children = new ArrayList<>();
+public class CompoundLocation extends Location {
+    private List<Location> children;
+
+    public CompoundLocation() {
+        this("");
+    }
 
     public CompoundLocation(String name) {
-        this.id = UUID.randomUUID();
-        this.name = name;
+        this(name, new ArrayList<>());
     }
 
-    public UUID getId() {
-        return id;
+    public CompoundLocation(String name, List<Location> children) {
+        super(name);
+        this.children = children;
     }
 
-    public String getName() {
-        return name;
+    public void setChildren(List<Location> children) {
+        this.children = children;
+    }
+
+    public List<Location> getChildren() {
+        return children;
     }
 
     public void add(Location location) {
         children.add(location);
     }
 
-    public void print() {
-        System.out.println(name);
-        for(Location child : children) {
-            System.out.print("-");
-            child.print();
-        }
+    @Override
+    public String print() {
+        return this.print("", true, true);
     }
 
     @Override
-    public void printAll() {
-        System.out.println(id + " " + name);
-        for(Location child : children) {
-            System.out.print("-");
-            child.printAll();
+    protected String print(String indent, boolean last, boolean start) {
+        String elbow = "└──";
+        String pipe = "│  ";
+        String tee = "├──";
+        String blank = "   ";
+        StringBuilder tree = new StringBuilder();
+
+        tree.append(indent);
+
+        if(!start) {
+            tree.append(last ? elbow : tee);
         }
+
+        tree.append("Id: ").append(id);
+
+        if(!start) {
+            indent += (last ? blank : pipe);
+        }
+
+        for(int i = 0; i < children.size(); i++) {
+            tree.append("\n");
+            tree.append(children.get(i).print(indent,i == children.size() - 1,false));
+        }
+
+        return tree.toString();
+    }
+
+    @Override
+    public String printAll() {
+        return this.printAll("", true, true);
+    }
+
+    protected String printAll(String indent, boolean last, boolean start) {
+        String elbow = "└──";
+        String pipe = "│  ";
+        String tee = "├──";
+        String blank = "   ";
+        StringBuilder tree = new StringBuilder();
+
+        tree.append(indent);
+
+        if(!start) {
+            tree.append(last ? elbow : tee);
+        }
+
+        tree.append("Id: ")
+            .append(id)
+            .append(" Name: ")
+            .append(name);
+
+        if(!start) {
+            indent += (last ? blank : pipe);
+        }
+
+        for(int i = 0; i < children.size(); i++) {
+            tree.append("\n");
+            tree.append(children.get(i).printAll(indent,i == children.size() - 1,false));
+        }
+
+        return tree.toString();
     }
 }
