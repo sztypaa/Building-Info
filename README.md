@@ -34,7 +34,7 @@ W terminalu:
 ````
 (Invoke-RestMethod -Method POST -H @{"Content-Type" = "application/json"} -InFile 'tu_wstaw_ścieżkę_do_pliku_JSON' -Uri http://localhost:8080/createBuilding).Replace('\n', "`n")
 ````
-## Linux (do weryfikacji)
+## Linux
 W terminalu:
 ````
 curl -X POST -H "Content-Type: application/json" -d @tu_wstaw_ścieżkę_do_pliku_JSON http://localhost:8080/createBuilding
