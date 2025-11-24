@@ -20,5 +20,57 @@
 
 &nbsp;  o light – łączna moc oświetlenia
 
+# Uwaga
+Do działania wymagane jest JDK 25.
 
+Ustawienie w IntelliJ IDEA:
 
+File->Project Structure->Project Settings->Project->menu SDK->Add SDK
+
+# Jak wysyłać żądania HTTP
+
+## Windows
+W terminalu:
+````
+(Invoke-RestMethod -Method POST -H @{"Content-Type" = "application/json"} -InFile 'tu_wstaw_ścieżkę_do_pliku_JSON' -Uri http://localhost:8080/createBuilding).Replace('\n', "`n")
+````
+## Linux (do weryfikacji)
+W terminalu:
+````
+curl -X POST -H "Content-Type: application/json" -d @tu_wstaw_ścieżkę_do_pliku_JSON http://localhost:8080/createBuilding
+````
+
+## Przykładowy JSON
+
+````
+{
+    "name":"building",
+    "children":[
+        {
+        "name":"floor1",
+        "children": [
+            {"name":"room11"},
+            {"name":"room12"}
+        ]
+        },
+        {
+        "name":"floor2",
+        "children": [
+            {"name": "room2a"},
+            {}
+        ]
+        }
+    ]
+}
+````
+
+## Odpowiedź dla przykładu
+<pre>
+Id: 1 Name: building
+├──Id: 2 Name: floor1
+│  ├──Id: 3 Name: room11 Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
+│  └──Id: 4 Name: room12 Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
+└──Id: 5 Name: floor2
+   ├──Id: 6 Name: room2a Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
+   └──Id: 7 Name:  Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
+</pre>
