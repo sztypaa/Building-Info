@@ -1,0 +1,19 @@
+{
+  "name":"building",
+  "children":[
+    {
+      "name":"floor1",
+      "children": [
+        {"name":"room11"},
+        {"name":"room12"}
+      ]
+    },
+    {
+      "name":"floor2",
+      "children": [
+        {"name": "room2a"},
+        {}
+      ]
+    }
+  ]
+}
