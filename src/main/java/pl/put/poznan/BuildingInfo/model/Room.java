@@ -39,7 +39,8 @@ public class Room extends Location{
         this.volume = volume;
     }
 
-    public float getHeating() {
+    @Override
+    public float getTotalHeating() {
         return heating;
     }
 

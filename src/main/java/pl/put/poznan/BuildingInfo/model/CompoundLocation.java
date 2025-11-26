@@ -70,6 +70,11 @@ public class CompoundLocation extends Location {
     }
 
     @Override
+    public float getTotalHeating() {
+        return children.stream().map(Location::getTotalHeating).reduce(0f, Float::sum);
+    }
+
+    @Override
     public String printAll() {
         return this.printAll("", true, true);
     }
