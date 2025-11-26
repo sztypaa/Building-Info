@@ -31,6 +31,15 @@ public abstract class Location {
 
     public abstract int getVolume();
 
+    public abstract float getTotalHeating();
+
+    public float calculateHeatingEnergy() {
+        if (getVolume() == 0) {
+            return 0;
+        }
+        return getTotalHeating() / getVolume();
+    }
+
     public abstract String print();
 
     protected abstract String print(String indent, boolean last, boolean start);

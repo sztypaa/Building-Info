@@ -39,6 +39,12 @@ public class BuildingInfoController {
         return buildingInfo.getLocationById(locationId).getVolume() + "\n";
     }
 
+    @GetMapping(value = "calculateHeating")
+    @ResponseBody
+    public String calculateHeating(@RequestParam int locationId) {
+        return buildingInfo.getLocationById(locationId).calculateHeatingEnergy() + "\n";
+    }
+
 }
 
 
