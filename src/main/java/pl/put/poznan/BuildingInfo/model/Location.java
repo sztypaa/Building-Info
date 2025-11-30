@@ -1,8 +1,10 @@
 package pl.put.poznan.BuildingInfo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+@JsonIgnoreProperties(value={ "id", "volume" }, ignoreUnknown = true)
 public abstract class Location {
     protected static final AtomicInteger counter = new AtomicInteger(0);
     protected int id;

@@ -1,6 +1,7 @@
 package pl.put.poznan.BuildingInfo.model;
 
 public class Room extends Location{
+    private int height;
     private int area;
     private int volume;
     private float heating;
@@ -14,10 +15,11 @@ public class Room extends Location{
         this(name, 0, 0, 0, 0);
     }
 
-    public Room(String name, int area, int volume, float heating, int lighting) {
+    public Room(String name, int area, int height, float heating, int lighting) {
         super(name);
         this.area = area;
-        this.volume = volume;
+        this.height = height;
+        this.volume = height * area;
         this.heating = heating;
         this.lighting = lighting;
     }
@@ -28,15 +30,17 @@ public class Room extends Location{
 
     public void setArea(int area) {
         this.area = area;
+        this.volume = height * area;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+        this.volume = height * area;
     }
 
     @Override
     public int getVolume() {
         return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
     }
 
     @Override
