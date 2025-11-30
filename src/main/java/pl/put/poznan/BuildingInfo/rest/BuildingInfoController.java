@@ -1,15 +1,16 @@
 package pl.put.poznan.BuildingInfo.rest;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; /*TODO*/
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.BuildingInfo.logic.BuildingInfo;
 import pl.put.poznan.BuildingInfo.model.Location;
 import pl.put.poznan.BuildingInfo.other.LocationDeserializer;
-
+import pl.put.poznan.BuildingInfo.other.LocationView;
 
 @RestController
 @RequestMapping("/")
@@ -24,25 +25,50 @@ public class BuildingInfoController {
         mapper.registerModule(module);
     }
 
-    @PostMapping(value = "createBuilding", consumes = "application/json")
-    public String createBuilding(@RequestBody ObjectNode json) {
+    @JsonView(LocationView.All.class)
+    @PostMapping(value = "createBuilding", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Location> createBuilding(@RequestBody ObjectNode json) {
         Location location = mapper.convertValue(json, Location.class);
 
         buildingInfo.save(location);
 
-        return location.printAll() + "\n";
+        return new ResponseEntity<>(location, HttpStatus.OK);
     }
 
-    @GetMapping(value = "getVolume")
+    @JsonView(LocationView.All.class)
+    @GetMapping(value = "getAll", produces = "application/json")
     @ResponseBody
-    public String getVolume(@RequestParam int locationId) {
-        return buildingInfo.getLocationById(locationId).getVolume() + "\n";
+    public ResponseEntity<Location> getAll(@RequestParam int id) {
+        Location location = buildingInfo.getLocationById(id);
+        return new ResponseEntity<>(location, HttpStatus.OK);
     }
 
-    @GetMapping(value = "calculateHeating")
+    @GetMapping(value = "print", produces = "text/plain")
     @ResponseBody
-    public String calculateHeating(@RequestParam int locationId) {
-        return buildingInfo.getLocationById(locationId).calculateHeatingEnergy() + "\n";
+    public ResponseEntity<String> print(@RequestParam int id) {
+        Location location = buildingInfo.getLocationById(id);
+        return new ResponseEntity<>(location.print(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "printAll", produces = "text/plain")
+    @ResponseBody
+    public ResponseEntity<String> printAll(@RequestParam int id) {
+        Location location = buildingInfo.getLocationById(id);
+        return new ResponseEntity<>(location.printAll(), HttpStatus.OK);
+    }
+
+    @JsonView(LocationView.Cube.class)
+    @GetMapping(value = "getCube", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Location> getCube(@RequestParam int id) {
+        return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
+    }
+
+    @JsonView(LocationView.Heating.class)
+    @GetMapping(value = "calculateHeating", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Location> calculateHeating(@RequestParam int id) {
+        return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
     }
 
 }

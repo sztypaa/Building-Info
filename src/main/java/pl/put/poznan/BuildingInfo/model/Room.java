@@ -1,9 +1,13 @@
 package pl.put.poznan.BuildingInfo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+import pl.put.poznan.BuildingInfo.other.LocationView;
+
 public class Room extends Location{
     private int height;
     private int area;
-    private int volume;
+    private int cube;
     private float heating;
     private int lighting;
 
@@ -19,31 +23,35 @@ public class Room extends Location{
         super(name);
         this.area = area;
         this.height = height;
-        this.volume = height * area;
+        this.cube = height * area;
         this.heating = heating;
         this.lighting = lighting;
     }
 
+    @JsonView(LocationView.All.class)
     public int getArea() {
         return area;
     }
 
     public void setArea(int area) {
         this.area = area;
-        this.volume = height * area;
+        this.cube = height * area;
     }
 
     public void setHeight(int height) {
         this.height = height;
-        this.volume = height * area;
+        this.cube = height * area;
     }
 
     @Override
-    public int getVolume() {
-        return volume;
+    @JsonView({LocationView.Cube.class, LocationView.All.class})
+    public int getCube() {
+        return cube;
     }
 
     @Override
+    @JsonProperty("heating")
+    @JsonView(LocationView.All.class)
     public float getTotalHeating() {
         return heating;
     }
@@ -52,6 +60,7 @@ public class Room extends Location{
         this.heating = heating;
     }
 
+    @JsonView(LocationView.All.class)
     public int getLighting() {
         return lighting;
     }
@@ -95,7 +104,7 @@ public class Room extends Location{
                + "Id: " + id
                + " Name: " + name
                + " Area: " + area
-               + " Volume: " + volume
+               + " Cube: " + cube
                + " Heating: " + heating
                + " Lighting: " + lighting;
     }

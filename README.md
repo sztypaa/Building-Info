@@ -32,7 +32,7 @@ File->Project Structure->Project Settings->Project->menu SDK->Add SDK
 ## Windows
 W terminalu:
 ````
-(Invoke-RestMethod -Method POST -H @{"Content-Type" = "application/json"} -InFile 'tu_wstaw_ścieżkę_do_pliku_JSON' -Uri http://localhost:8080/createBuilding).Replace('\n', "`n")
+Invoke-RestMethod -Method POST -H @{"Content-Type" = "application/json"} -InFile 'tu_wstaw_ścieżkę_do_pliku_JSON' -Uri http://localhost:8080/createBuilding | ConvertTo-Json -Depth 99
 ````
 ## Linux
 W terminalu:
