@@ -60,6 +60,11 @@ public class Room extends Location{
         this.heating = heating;
     }
 
+    @Override
+    public float getTotalLighting() {
+        return (float) lighting;
+    }
+
     @JsonView(LocationView.All.class)
     public int getLighting() {
         return lighting;

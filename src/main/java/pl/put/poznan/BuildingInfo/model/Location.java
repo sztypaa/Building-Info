@@ -36,6 +36,8 @@ public abstract class Location {
         return name;
     }
 
+    public abstract int getArea();
+
     @JsonView(LocationView.Cube.class)
     public abstract int getCube();
 
@@ -48,6 +50,17 @@ public abstract class Location {
             return 0;
         }
         return getTotalHeating() / getCube();
+    }
+
+    public abstract float getTotalLighting();
+
+    @JsonProperty("average lighting power")
+    @JsonView(LocationView.Lighting.class)
+    public float calculateLightingPower() {
+        if (getArea() == 0) {
+            return 0f;
+        }
+        return getTotalLighting() / getArea();
     }
 
     public abstract String print();

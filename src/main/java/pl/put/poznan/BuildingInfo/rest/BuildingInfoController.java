@@ -71,6 +71,13 @@ public class BuildingInfoController {
         return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
     }
 
+    @JsonView(LocationView.Lighting.class)
+    @GetMapping(value = "calculateLighting")
+    @ResponseBody
+    public ResponseEntity<Location> calculateLighting(@RequestParam int id) {
+        return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
+    }
+
 }
 
 

@@ -22,6 +22,20 @@ public class CompoundLocation extends Location {
         this.children = children;
     }
 
+    public void setChildren(List<Location> children) {
+        this.children = children;
+    }
+
+    @JsonView(LocationView.All.class)
+    public List<Location> getChildren() {
+        return children;
+    }
+
+    @Override
+    public int getArea() {
+        return children.stream().map(Location::getArea).reduce(0, Integer::sum);
+    }
+
     @Override
     public int getCube() {
         return children.stream().map(Location::getCube).reduce(0, Integer::sum);
@@ -32,14 +46,11 @@ public class CompoundLocation extends Location {
         return children.stream().map(Location::getTotalHeating).reduce(0f, Float::sum);
     }
 
-    public void setChildren(List<Location> children) {
-        this.children = children;
+    @Override
+    public float getTotalLighting() {
+        return children.stream().map(Location::getTotalLighting).reduce(0f, Float::sum);
     }
 
-    @JsonView(LocationView.All.class)
-    public List<Location> getChildren() {
-        return children;
-    }
 
     @Override
     public String print() {
