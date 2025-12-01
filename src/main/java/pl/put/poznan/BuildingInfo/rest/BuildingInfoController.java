@@ -45,6 +45,12 @@ public class BuildingInfoController {
         return buildingInfo.getLocationById(locationId).calculateHeatingEnergy() + "\n";
     }
 
+    @GetMapping(value = "calculateLighting")
+    @ResponseBody
+    public String calculateLighting(@RequestParam int locationId) {
+        return buildingInfo.getLocationById(locationId).calculateLightingPower() + "\n";
+    }
+
 }
 
 
