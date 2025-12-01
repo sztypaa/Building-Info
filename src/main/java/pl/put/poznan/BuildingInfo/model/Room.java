@@ -44,6 +44,11 @@ public class Room extends Location{
         return heating;
     }
 
+    @Override
+    public float getTotalLighting() {
+        return (float) lighting;
+    }
+
     public void setHeating(float heating) {
         this.heating = heating;
     }

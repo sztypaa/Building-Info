@@ -75,6 +75,16 @@ public class CompoundLocation extends Location {
     }
 
     @Override
+    public int getArea() {
+        return children.stream().map(Location::getArea).reduce(0, Integer::sum);
+    }
+
+    @Override
+    public float getTotalLighting() {
+        return children.stream().map(Location::getTotalLighting).reduce(0f, Float::sum);
+    }
+
+    @Override
     public String printAll() {
         return this.printAll("", true, true);
     }

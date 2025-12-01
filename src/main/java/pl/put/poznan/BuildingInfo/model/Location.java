@@ -29,6 +29,8 @@ public abstract class Location {
         return name;
     }
 
+
+
     public abstract int getVolume();
 
     public abstract float getTotalHeating();
@@ -38,6 +40,17 @@ public abstract class Location {
             return 0;
         }
         return getTotalHeating() / getVolume();
+    }
+
+    public abstract int getArea();
+
+    public abstract float getTotalLighting();
+
+    public float calculateLightingPower() {
+        if (getArea() == 0) {
+            return 0f;
+        }
+        return getTotalLighting() / getArea();
     }
 
     public abstract String print();
