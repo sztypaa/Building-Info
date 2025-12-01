@@ -1,12 +1,13 @@
-name: Publish JAR to Release
+name: Java CI & Release
 
 on:
   push:
+    branches: [ "**" ]      
     tags:
-      - "v*"
+      - "v*"                
 
 permissions:
-  contents: write
+  contents: write            
 
 jobs:
   build:
@@ -15,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-
+      
       - name: Set up JDK 25
         uses: actions/setup-java@v4
         with:
@@ -23,15 +24,24 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-
-      - name: Build with Maven
+     
+      - name: Validate, build and run tests
         run: mvn -B package --file pom.xml
 
+      
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BuildingInfo-JAR
+          path: target/*.jar
+          retention-days: 5
 
-      - name: Release
+    
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/*.jar
+          files: target/*.jar           
+          generate_release_notes: true   
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
