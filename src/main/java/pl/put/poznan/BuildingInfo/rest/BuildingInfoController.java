@@ -64,6 +64,14 @@ public class BuildingInfoController {
         return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
     }
 
+    @JsonView(LocationView.All.class)
+    @GetMapping(value = "getArea", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Location> getArea(@RequestParam int id) {
+        return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
+    }
+
+
     @JsonView(LocationView.Heating.class)
     @GetMapping(value = "calculateHeating", produces = "application/json")
     @ResponseBody

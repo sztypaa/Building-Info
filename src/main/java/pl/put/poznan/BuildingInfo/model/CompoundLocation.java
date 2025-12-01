@@ -32,6 +32,7 @@ public class CompoundLocation extends Location {
     }
 
     @Override
+    @JsonView(LocationView.All.class)
     public int getArea() {
         return children.stream().map(Location::getArea).reduce(0, Integer::sum);
     }
