@@ -1,8 +1,13 @@
 package pl.put.poznan.BuildingInfo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+import pl.put.poznan.BuildingInfo.other.LocationView;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+@JsonIgnoreProperties(value={ "id", "volume" }, ignoreUnknown = true, allowGetters = true)
 public abstract class Location {
     protected static final AtomicInteger counter = new AtomicInteger(0);
     protected int id;
@@ -17,6 +22,7 @@ public abstract class Location {
         this.name = name;
     }
 
+    @JsonView(LocationView.Basic.class)
     public int getId() {
         return id;
     }
@@ -25,27 +31,31 @@ public abstract class Location {
         this.name = name;
     }
 
+    @JsonView(LocationView.Basic.class)
     public String getName() {
         return name;
     }
 
+    public abstract int getArea();
 
-
-    public abstract int getVolume();
+    @JsonView(LocationView.Cube.class)
+    public abstract int getCube();
 
     public abstract float getTotalHeating();
 
+    @JsonProperty("average heating energy")
+    @JsonView(LocationView.Heating.class)
     public float calculateHeatingEnergy() {
-        if (getVolume() == 0) {
+        if (getCube() == 0) {
             return 0;
         }
-        return getTotalHeating() / getVolume();
+        return getTotalHeating() / getCube();
     }
-
-    public abstract int getArea();
 
     public abstract float getTotalLighting();
 
+    @JsonProperty("average lighting power")
+    @JsonView(LocationView.Lighting.class)
     public float calculateLightingPower() {
         if (getArea() == 0) {
             return 0f;

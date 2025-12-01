@@ -1,5 +1,8 @@
 package pl.put.poznan.BuildingInfo.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import pl.put.poznan.BuildingInfo.other.LocationView;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,13 +26,31 @@ public class CompoundLocation extends Location {
         this.children = children;
     }
 
+    @JsonView(LocationView.All.class)
     public List<Location> getChildren() {
         return children;
     }
 
-    public void add(Location location) {
-        children.add(location);
+    @Override
+    public int getArea() {
+        return children.stream().map(Location::getArea).reduce(0, Integer::sum);
     }
+
+    @Override
+    public int getCube() {
+        return children.stream().map(Location::getCube).reduce(0, Integer::sum);
+    }
+
+    @Override
+    public float getTotalHeating() {
+        return children.stream().map(Location::getTotalHeating).reduce(0f, Float::sum);
+    }
+
+    @Override
+    public float getTotalLighting() {
+        return children.stream().map(Location::getTotalLighting).reduce(0f, Float::sum);
+    }
+
 
     @Override
     public String print() {
@@ -62,26 +83,6 @@ public class CompoundLocation extends Location {
         }
 
         return tree.toString();
-    }
-
-    @Override
-    public int getVolume() {
-        return children.stream().map(Location::getVolume).reduce(0, Integer::sum);
-    }
-
-    @Override
-    public float getTotalHeating() {
-        return children.stream().map(Location::getTotalHeating).reduce(0f, Float::sum);
-    }
-
-    @Override
-    public int getArea() {
-        return children.stream().map(Location::getArea).reduce(0, Integer::sum);
-    }
-
-    @Override
-    public float getTotalLighting() {
-        return children.stream().map(Location::getTotalLighting).reduce(0f, Float::sum);
     }
 
     @Override
