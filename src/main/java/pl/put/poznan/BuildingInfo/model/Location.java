@@ -36,6 +36,7 @@ public abstract class Location {
         return name;
     }
 
+    @JsonView(LocationView.Area.class)
     public abstract int getArea();
 
     @JsonView(LocationView.Cube.class)
