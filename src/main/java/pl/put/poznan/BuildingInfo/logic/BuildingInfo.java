@@ -4,7 +4,6 @@ import pl.put.poznan.BuildingInfo.model.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * This is just an example to show that the logic should be outside the REST service.
