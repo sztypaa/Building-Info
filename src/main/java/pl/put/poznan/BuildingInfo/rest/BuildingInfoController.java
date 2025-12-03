@@ -27,6 +27,7 @@ public class BuildingInfoController {
 
     @JsonView(LocationView.All.class)
     @PostMapping(value = "createBuilding", consumes = "application/json", produces = "application/json")
+    @ResponseBody
     public ResponseEntity<Location> createBuilding(@RequestBody ObjectNode json) {
         Location location = mapper.convertValue(json, Location.class);
 
