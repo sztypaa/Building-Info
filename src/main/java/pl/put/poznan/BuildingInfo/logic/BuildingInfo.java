@@ -6,20 +6,41 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * This is just an example to show that the logic should be outside the REST service.
+ * <code>BuildingInfo</code> is class that stores trees of <code>{@link Location}</code> objects and allows storing and
+ * accessing them during current <code>{@link pl.put.poznan.BuildingInfo.app.BuildingInfoApplication}</code> runtime.
+ * Trees of <code>Location</code> objects are meant to represent buildings and their structure. All stored information
+ * is lost after application is shut down.
+ *
+ * @version %I% %D%
  */
 public class BuildingInfo {
-
+    /**
+     * list containing trees of locations
+     */
     private final List<Location> locations;
 
+    /**
+     * Constructs a new <code>BuildingInfo</code> with no trees of locations.
+     */
     public BuildingInfo(){
         this.locations = new ArrayList<>();
     }
 
+    /**
+     * Save specified <code>Location</code> tree for the duration of the application runtime.
+     * @param location location to save
+     */
     public void save(Location location) {
         locations.add(location);
     }
 
+    /**
+     * Search tree of <code>Location</code> objects for one with matching id. <code>location</code> should be provided
+     * by {@link #getLocationById(int)}
+     * @param location  tree or subtree of <code>Location</code> objects to traverse during search
+     * @param id        id to look for in a tree
+     * @return          location with matching id or null if such location wasn't found
+     */
     private Location getLocationById(Location location, int id) {
         if(location.getId() == id) {
             return location;
@@ -36,6 +57,11 @@ public class BuildingInfo {
         return null;
     }
 
+    /**
+     * Search stored trees of locations for location with matching id.
+     * @param id    id to look for in stored trees
+     * @return      location with matching id or null if such location wasn't found
+     */
     public Location getLocationById(int id) {
         for(Location location : locations) {
             Location temp = getLocationById(location, id);
