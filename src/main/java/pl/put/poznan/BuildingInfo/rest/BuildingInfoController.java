@@ -23,7 +23,6 @@ import pl.put.poznan.BuildingInfo.other.LocationView;
 @RequestMapping("/")
 public class BuildingInfoController {
 
-    // PRZYWRÓCONO LOGGER
     private static final Logger logger = LoggerFactory.getLogger(BuildingInfoController.class);
 
     /**
@@ -46,7 +45,7 @@ public class BuildingInfoController {
     public void initialize() {
         module.addDeserializer(Location.class, new LocationDeserializer());
         mapper.registerModule(module);
-        logger.debug("BuildingInfoController initialized"); // Log DEBUG
+        logger.debug("BuildingInfoController initialized");
     }
 
     /**
@@ -59,12 +58,12 @@ public class BuildingInfoController {
     @PostMapping(value = "createBuilding", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public ResponseEntity<Location> createBuilding(@RequestBody ObjectNode json) {
-        logger.info("Received POST request to create building"); // Log INFO
+        logger.info("Received POST request to create building");
 
         Location location = mapper.convertValue(json, Location.class);
         buildingInfo.save(location);
 
-        logger.debug("Building structure created successfully with root ID: {}", location.getId()); // Log DEBUG
+        logger.debug("Building structure created successfully with root ID: {}", location.getId());
 
         return new ResponseEntity<>(location, HttpStatus.OK);
     }
@@ -77,8 +76,8 @@ public class BuildingInfoController {
     @JsonView(LocationView.All.class)
     @GetMapping(value = "getAll", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Location> getAll(@RequestParam int id) {
-        logger.info("Received GET request: getAll for ID {}", id); // Log INFO
+    public ResponseEntity<Location> getAll(@RequestParam("id") int id) {
+        logger.info("Received GET request: getAll for ID {}", id);
         Location location = buildingInfo.getLocationById(id);
         return new ResponseEntity<>(location, HttpStatus.OK);
     }
@@ -90,8 +89,8 @@ public class BuildingInfoController {
      */
     @GetMapping(value = "print", produces = "text/plain")
     @ResponseBody
-    public ResponseEntity<String> print(@RequestParam int id) {
-        logger.info("Received GET request: print (info) for ID {}", id); // Log INFO
+    public ResponseEntity<String> print(@RequestParam("id") int id) {
+        logger.info("Received GET request: print (info) for ID {}", id);
         Location location = buildingInfo.getLocationById(id);
         if (location == null) {
             logger.error("Location with ID {} not found", id);
@@ -107,8 +106,8 @@ public class BuildingInfoController {
      */
     @GetMapping(value = "printAll", produces = "text/plain")
     @ResponseBody
-    public ResponseEntity<String> printAll(@RequestParam int id) {
-        logger.info("Received GET request: printAll (allInfo) for ID {}", id); // Log INFO
+    public ResponseEntity<String> printAll(@RequestParam("id") int id) {
+        logger.info("Received GET request: printAll (allInfo) for ID {}", id);
         Location location = buildingInfo.getLocationById(id);
         if (location == null) {
             logger.error("Location with ID {} not found", id);
@@ -125,8 +124,8 @@ public class BuildingInfoController {
     @JsonView(LocationView.Cube.class)
     @GetMapping(value = "getCube", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Location> getCube(@RequestParam int id) {
-        logger.info("Received GET request: getCube for ID {}", id); // Log INFO
+    public ResponseEntity<Location> getCube(@RequestParam("id") int id) {
+        logger.info("Received GET request: getCube for ID {}", id);
         return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
     }
 
@@ -138,8 +137,8 @@ public class BuildingInfoController {
     @JsonView(LocationView.Area.class)
     @GetMapping(value = "getArea", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Location> getArea(@RequestParam int id) {
-        logger.info("Received GET request: getArea for ID {}", id); // Log INFO
+    public ResponseEntity<Location> getArea(@RequestParam("id") int id) {
+        logger.info("Received GET request: getArea for ID {}", id);
         return new ResponseEntity<>(buildingInfo.getLocationById(id), HttpStatus.OK);
     }
 
@@ -152,8 +151,8 @@ public class BuildingInfoController {
     @JsonView(LocationView.Heating.class)
     @GetMapping(value = "calculateHeating", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Location> calculateHeating(@RequestParam int id) {
-        logger.info("Received GET request: calculateHeating for ID {}", id); // Log INFO
+    public ResponseEntity<Location> calculateHeating(@RequestParam("id") int id) {
+        logger.info("Received GET request: calculateHeating for ID {}", id);
         Location loc = buildingInfo.getLocationById(id);
         if (loc != null) loc.calculateHeatingEnergy();
         return new ResponseEntity<>(loc, HttpStatus.OK);
@@ -167,8 +166,8 @@ public class BuildingInfoController {
     @JsonView(LocationView.Lighting.class)
     @GetMapping(value = "calculateLighting")
     @ResponseBody
-    public ResponseEntity<Location> calculateLighting(@RequestParam int id) {
-        logger.info("Received GET request: calculateLighting for ID {}", id); // Log INFO
+    public ResponseEntity<Location> calculateLighting(@RequestParam("id") int id) {
+        logger.info("Received GET request: calculateLighting for ID {}", id);
         Location loc = buildingInfo.getLocationById(id);
         if (loc != null) loc.calculateLightingPower();
         return new ResponseEntity<>(loc, HttpStatus.OK);
