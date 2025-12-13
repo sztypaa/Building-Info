@@ -3,12 +3,17 @@ package pl.put.poznan.BuildingInfo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.put.poznan.BuildingInfo.other.LocationView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 @JsonIgnoreProperties(value={ "id", "volume" }, ignoreUnknown = true, allowGetters = true)
 public abstract class Location {
+
+    private static final Logger logger = LoggerFactory.getLogger(Location.class);
+
     protected static final AtomicInteger counter = new AtomicInteger(0);
     protected int id;
     protected String name;
@@ -47,6 +52,7 @@ public abstract class Location {
     @JsonProperty("average heating energy")
     @JsonView(LocationView.Heating.class)
     public float calculateHeatingEnergy() {
+        logger.debug("Calculating heating energy for location ID: {}", id);
         if (getCube() == 0) {
             return 0;
         }
@@ -58,6 +64,7 @@ public abstract class Location {
     @JsonProperty("average lighting power")
     @JsonView(LocationView.Lighting.class)
     public float calculateLightingPower() {
+        logger.debug("Calculating lighting power for location ID: {}", id);
         if (getArea() == 0) {
             return 0f;
         }
