@@ -61,10 +61,6 @@ Invoke-RestMethod -Uri "http://localhost:8080/calculateLighting?id=1" | ConvertT
 ````
 Invoke-RestMethod -Uri "http://localhost:8080/calculateHeating?id=1" | ConvertTo-Json
 ````
-
-## Windows
-**Obliczanie oświetlenia:**
-
 ## Przykladowa odpowiedz
 ````
 {
