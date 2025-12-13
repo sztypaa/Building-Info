@@ -29,54 +29,73 @@ File->Project Structure->Project Settings->Project->menu SDK->Add SDK
 
 # Jak wysyłać żądania HTTP
 
-## Windows (Tworzenie budynku)
+## Windows
 W terminalu:
+````
 Invoke-RestMethod -Method POST -H @{"Content-Type" = "application/json"} -InFile 'tu_wstaw_ścieżkę_do_pliku_JSON' -Uri http://localhost:8080/createBuilding | ConvertTo-Json -Depth 99
-
-
-## Linux (Tworzenie budynku)
+````
+## Linux
 W terminalu:
+````
 curl -X POST -H "Content-Type: application/json" -d @tu_wstaw_ścieżkę_do_pliku_JSON http://localhost:8080/createBuilding
-
+````
 
 # Obliczanie parametrów (GET)
 Wymaga wcześniejszego utworzenia budynku i znania ID lokalizacji (np. id=1).
 
 ## Windows
 **Obliczanie oświetlenia:**
+````
 Invoke-RestMethod -Uri "http://localhost:8080/calculateLighting?id=1" | ConvertTo-Json
-
+````
 ## Przykladowa odpowiedz
+````
 {
     "id":  1,
     "name":  "Budynek Testowy",
     "average lighting power":  4.0
 }
-
+````
 
 **Obliczanie ogrzewania:**
+````
 Invoke-RestMethod -Uri "http://localhost:8080/calculateHeating?id=1" | ConvertTo-Json
+````
+
+## Windows
+**Obliczanie oświetlenia:**
 
 ## Przykladowa odpowiedz
+````
 {
     "id":  1,
     "name":  "Budynek Testowy",
     "average heating energy":  0.0
 }
-
-
-## Linux
-**Obliczanie oświetlenia:**
-curl "http://localhost:8080/calculateLighting?id=1"
-
-**Obliczanie ogrzewania:**
-curl "http://localhost:8080/calculateHeating?id=1"
-
-
+````
 ## Przykładowy JSON
 
-{ "name":"building", "children":[ { "name":"floor1", "children": [ {"name":"room11"}, {"name":"room12"} ] }, { "name":"floor2", "children": [ {"name": "room2a"}, {} ] } ] }
-
+````
+{
+    "name":"building",
+    "children":[
+        {
+        "name":"floor1",
+        "children": [
+            {"name":"room11"},
+            {"name":"room12"}
+        ]
+        },
+        {
+        "name":"floor2",
+        "children": [
+            {"name": "room2a"},
+            {}
+        ]
+        }
+    ]
+}
+````
 
 ## Odpowiedź dla przykładu
 <pre>
@@ -88,4 +107,3 @@ Id: 1 Name: building
    ├──Id: 6 Name: room2a Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
    └──Id: 7 Name:  Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
 </pre>
-```
