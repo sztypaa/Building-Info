@@ -40,6 +40,35 @@ W terminalu:
 curl -X POST -H "Content-Type: application/json" -d @tu_wstaw_ścieżkę_do_pliku_JSON http://localhost:8080/createBuilding
 ````
 
+# Obliczanie parametrów (GET)
+Wymaga wcześniejszego utworzenia budynku i znania ID lokalizacji (np. id=1).
+
+## Windows
+**Obliczanie oświetlenia:**
+````
+Invoke-RestMethod -Uri "http://localhost:8080/calculateLighting?id=1" | ConvertTo-Json
+````
+## Przykladowa odpowiedz
+````
+{
+    "id":  1,
+    "name":  "Budynek Testowy",
+    "average lighting power":  4.0
+}
+````
+
+**Obliczanie ogrzewania:**
+````
+Invoke-RestMethod -Uri "http://localhost:8080/calculateHeating?id=1" | ConvertTo-Json
+````
+## Przykladowa odpowiedz
+````
+{
+    "id":  1,
+    "name":  "Budynek Testowy",
+    "average heating energy":  0.0
+}
+````
 ## Przykładowy JSON
 
 ````
