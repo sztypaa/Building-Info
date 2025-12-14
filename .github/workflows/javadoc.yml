@@ -28,4 +28,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           java-version: '17'
           project: maven
-          target-folder: javadoc
