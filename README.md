@@ -103,3 +103,7 @@ Id: 1 Name: building
    ├──Id: 6 Name: room2a Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
    └──Id: 7 Name:  Area: 0 Volume: 0 Heating: 0.0 Lighting: 0
 </pre>
+
+# Diagram UML
+
+![alt text](https://github.com/sztypaa/Building-Info/blob/main/UML.png?raw=true)
