@@ -1,6 +1,5 @@
 package pl.put.poznan.BuildingInfo.logic;
 
-import org.springframework.web.client.RestClient;
 import pl.put.poznan.BuildingInfo.model.*;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class BuildingInfo {
     /**
      * Constructs a new <code>BuildingInfo</code> with no trees of locations.
      */
-    public BuildingInfo(){
+    public BuildingInfo() {
         this.locations = new ArrayList<>();
     }
 
