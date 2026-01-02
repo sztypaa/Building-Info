@@ -22,6 +22,7 @@ public class EnergyPricesResponse {
     @JsonProperty("value")
     public void setEnergyPrices(List<EnergyPrice> energyPrices) {
         this.energyPrices = energyPrices;
+        calculateAveragePrice();
     }
 
     public List<EnergyPrice> getEnergyPrices() {

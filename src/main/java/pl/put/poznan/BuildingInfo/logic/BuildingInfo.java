@@ -1,5 +1,6 @@
 package pl.put.poznan.BuildingInfo.logic;
 
+import org.springframework.stereotype.Component;
 import pl.put.poznan.BuildingInfo.model.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  *
  * @version %I% %D%
  */
+@Component
 public class BuildingInfo {
     /**
      * list containing trees of locations
@@ -72,4 +74,19 @@ public class BuildingInfo {
         return null;
     }
 
+    private void updateEnergyPrices(Location location, double price) {
+        if(location instanceof CompoundLocation compoundLocation) {
+            for (Location sublocation : compoundLocation.getChildren()) {
+                updateEnergyPrices(sublocation, price);
+            }
+        } else if (location instanceof Room room){
+            room.setEnergyPrice(price);
+        }
+    }
+
+    public void updateEnergyPrices(double price) {
+        for(Location location : locations) {
+            updateEnergyPrices(location, price);
+        }
+    }
 }

@@ -7,9 +7,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.put.poznan.BuildingInfo.app.BuildingInfoApplication;
 import pl.put.poznan.BuildingInfo.logic.BuildingInfo;
 import pl.put.poznan.BuildingInfo.model.Location;
 import pl.put.poznan.BuildingInfo.other.LocationDeserializer;
@@ -17,7 +19,7 @@ import pl.put.poznan.BuildingInfo.other.LocationView;
 
 /**
  * <code>BuildingInfoController</code> class specifies REST mappings in
- * <code>{@link pl.put.poznan.BuildingInfo.app.BuildingInfoApplication}</code>.
+ * <code>{@link BuildingInfoApplication}</code>.
  */
 @RestController
 @RequestMapping("/")
@@ -28,7 +30,9 @@ public class BuildingInfoController {
     /**
      * used to store and access buildings
      */
-    private final BuildingInfo buildingInfo = new BuildingInfo();
+
+    @Autowired
+    private BuildingInfo buildingInfo;
     /**
      * used to serialize/deserialize objects to/from JSON
      */
@@ -37,7 +41,6 @@ public class BuildingInfoController {
      * used to register serializers and deserializers
      */
     private final SimpleModule module = new SimpleModule();
-
     /**
      * register custom deserializer <code>{@link LocationDeserializer}</code> for <code>{@link Location}</code> class
      */
@@ -64,7 +67,6 @@ public class BuildingInfoController {
         buildingInfo.save(location);
 
         logger.debug("Building structure created successfully with root ID: {}", location.getId());
-
         return new ResponseEntity<>(location, HttpStatus.OK);
     }
 
