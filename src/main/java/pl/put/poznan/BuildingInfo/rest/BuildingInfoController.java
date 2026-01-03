@@ -20,6 +20,8 @@ import pl.put.poznan.BuildingInfo.other.LocationView;
 /**
  * <code>BuildingInfoController</code> class specifies REST mappings in
  * <code>{@link BuildingInfoApplication}</code>.
+ *
+ * @version %I% %D%
  */
 @RestController
 @RequestMapping("/")
@@ -30,7 +32,6 @@ public class BuildingInfoController {
     /**
      * used to store and access buildings
      */
-
     @Autowired
     private BuildingInfo buildingInfo;
     /**
