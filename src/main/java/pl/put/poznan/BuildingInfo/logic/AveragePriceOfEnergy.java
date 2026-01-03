@@ -12,13 +12,13 @@ public class AveragePriceOfEnergy {
     /**
      * wrapped value
      */
-    private double averagePrice;
+    private double energyPrice;
 
     public void set(double averagePrice) {
-        this.averagePrice = averagePrice;
+        this.energyPrice = averagePrice;
     }
 
     public double get() {
-        return averagePrice;
+        return energyPrice;
     }
 }

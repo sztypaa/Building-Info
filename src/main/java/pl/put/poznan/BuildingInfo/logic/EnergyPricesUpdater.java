@@ -2,7 +2,6 @@ package pl.put.poznan.BuildingInfo.logic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.put.poznan.BuildingInfo.other.EnergyPrice;
@@ -25,14 +24,14 @@ public class EnergyPricesUpdater {
     /**
      * used to store average price of energy
      */
-    private final AveragePriceOfEnergy averagePrice;
+    private final AveragePriceOfEnergy energyPrice;
 
     /**
      * Constructs a new <code>EnergyPricesUpdater</code> with injected <code>{@link AveragePriceOfEnergy}</code>
      * @param averagePrice price to update
      */
     public EnergyPricesUpdater(AveragePriceOfEnergy averagePrice) {
-        this.averagePrice = averagePrice;
+        this.energyPrice = averagePrice;
     }
 
     /**
@@ -56,11 +55,11 @@ public class EnergyPricesUpdater {
         EnergyPricesResponse energyPricesResponse = EnergyPricesFetcher
                 .fetchPricesFromDateTimeInterval(date31DaysAgo, date1DayAgo);
         if(energyPricesResponse != null) {
-            averagePrice.set(energyPricesResponse.getEnergyPrices().stream()
+            energyPrice.set(energyPricesResponse.getEnergyPrices().stream()
                     .mapToDouble(EnergyPrice::price)
                     .average()
-                    .orElse(averagePrice.get()));
-            logger.info("New energy price is: {}", averagePrice.get());
+                    .orElse(energyPrice.get()));
+            logger.info("New energy price is: {}", energyPrice.get());
         }
     }
 }

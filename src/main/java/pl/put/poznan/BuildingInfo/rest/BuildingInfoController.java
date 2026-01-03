@@ -39,8 +39,7 @@ public class BuildingInfoController {
     /**
      * used to store and access buildings
      */
-    @Autowired
-    private BuildingInfo buildingInfo;
+    private final BuildingInfo buildingInfo = new BuildingInfo();
     /**
      * used to serialize/deserialize objects to/from JSON
      */
@@ -49,6 +48,10 @@ public class BuildingInfoController {
      * used to register serializers and deserializers
      */
     private final SimpleModule module = new SimpleModule();
+
+    public BuildingInfoController(AveragePriceOfEnergy energyPrice) {
+        this.energyPrice = energyPrice;
+    }
     /**
      * register custom deserializer <code>{@link LocationDeserializer}</code> for <code>{@link Location}</code> class
      */
