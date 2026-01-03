@@ -30,6 +30,11 @@ public class LocationView {
     public interface Heating extends Basic {}
 
     /**
+     * contains id, name and calculated cost of energy
+     */
+    public interface EnergyCost extends Basic {}
+
+    /**
      * contains all information about all locations
      */
     public interface All extends Basic {}

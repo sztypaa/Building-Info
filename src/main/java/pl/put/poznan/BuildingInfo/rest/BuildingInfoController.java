@@ -12,10 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.BuildingInfo.app.BuildingInfoApplication;
+import pl.put.poznan.BuildingInfo.logic.AveragePriceOfEnergy;
 import pl.put.poznan.BuildingInfo.logic.BuildingInfo;
 import pl.put.poznan.BuildingInfo.model.Location;
 import pl.put.poznan.BuildingInfo.other.LocationDeserializer;
 import pl.put.poznan.BuildingInfo.other.LocationView;
+import pl.put.poznan.BuildingInfo.other.LocationWithEnergyCost;
 
 /**
  * <code>BuildingInfoController</code> class specifies REST mappings in
@@ -29,6 +31,11 @@ public class BuildingInfoController {
 
     private static final Logger logger = LoggerFactory.getLogger(BuildingInfoController.class);
 
+    /**
+     * used to store and access price of energy
+     */
+    @Autowired
+    private AveragePriceOfEnergy energyPrice;
     /**
      * used to store and access buildings
      */
@@ -174,5 +181,21 @@ public class BuildingInfoController {
         Location loc = buildingInfo.getLocationById(id);
         if (loc != null) loc.calculateLightingPower();
         return new ResponseEntity<>(loc, HttpStatus.OK);
+    }
+
+    /**
+     * Returns JSON response representing id, name and predicted price of energy of location with matching id
+     * @param id    id to search for
+     * @return      location with matching id
+     */
+    @JsonView(LocationView.EnergyCost.class)
+    @GetMapping(value = "calculateEnergyCost")
+    @ResponseBody
+    public ResponseEntity<LocationWithEnergyCost> calculateEnergyCost(@RequestParam("id") int id) {
+        logger.info("Received GET request: calculateEnergyPrice for ID {}", id);
+        //TODO calculate energy cost of location here
+        LocationWithEnergyCost location = new LocationWithEnergyCost(buildingInfo.getLocationById(id),
+                (float)energyPrice.get());
+        return new ResponseEntity<>(location, HttpStatus.OK);
     }
 }

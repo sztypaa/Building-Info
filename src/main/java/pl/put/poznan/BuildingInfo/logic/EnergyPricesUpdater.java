@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import pl.put.poznan.BuildingInfo.other.EnergyPrice;
 import pl.put.poznan.BuildingInfo.other.EnergyPricesFetcher;
 import pl.put.poznan.BuildingInfo.other.EnergyPricesResponse;
 
@@ -22,15 +23,23 @@ public class EnergyPricesUpdater {
     private static final Logger logger = LoggerFactory.getLogger(EnergyPricesUpdater.class);
 
     /**
-     * used to store and access buildings
+     * used to store average price of energy
      */
-    @Autowired
-    private BuildingInfo buildingInfo;
+    private final AveragePriceOfEnergy averagePrice;
+
+    /**
+     * Constructs a new <code>EnergyPricesUpdater</code> with injected <code>{@link AveragePriceOfEnergy}</code>
+     * @param averagePrice price to update
+     */
+    public EnergyPricesUpdater(AveragePriceOfEnergy averagePrice) {
+        this.averagePrice = averagePrice;
+    }
 
     /**
      * Fetches energy prices from last full 30 days using @see
      * <a href="https://api.raporty.pse.pl/api/">https://api.raporty.pse.pl/api/</a>.
-     * Then calculates average price and updates buildings.
+     * Then calculates average price and updates buildings. If response was null or had no energy prices then leaves old
+     * price.
      */
     //TODO repeat for each day, not every 5 seconds
     @Scheduled(cron = "0/5 * * * * ?", zone = "Europe/Warsaw")
@@ -47,8 +56,11 @@ public class EnergyPricesUpdater {
         EnergyPricesResponse energyPricesResponse = EnergyPricesFetcher
                 .fetchPricesFromDateTimeInterval(date31DaysAgo, date1DayAgo);
         if(energyPricesResponse != null) {
-            buildingInfo.updateEnergyPrices(energyPricesResponse.getAveragePrice());
-            logger.info("New energy price is: {}", energyPricesResponse.getAveragePrice());
+            averagePrice.set(energyPricesResponse.getEnergyPrices().stream()
+                    .mapToDouble(EnergyPrice::price)
+                    .average()
+                    .orElse(averagePrice.get()));
+            logger.info("New energy price is: {}", averagePrice.get());
         }
     }
 }
