@@ -78,7 +78,6 @@ public abstract class Location {
     @JsonProperty("average heating energy")
     @JsonView(LocationView.Heating.class)
     public float calculateHeatingEnergy() {
-        // Logowanie logiki biznesowej
         logger.debug("Calculating heating energy for location ID: {}", id);
         if (getCube() == 0) {
             return 0;
@@ -95,7 +94,6 @@ public abstract class Location {
     @JsonProperty("average lighting power")
     @JsonView(LocationView.Lighting.class)
     public float calculateLightingPower() {
-
         logger.debug("Calculating lighting power for location ID: {}", id);
         if (getArea() == 0) {
             return 0f;

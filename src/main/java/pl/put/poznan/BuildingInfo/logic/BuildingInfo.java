@@ -1,5 +1,6 @@
 package pl.put.poznan.BuildingInfo.logic;
 
+import org.springframework.stereotype.Component;
 import pl.put.poznan.BuildingInfo.model.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  *
  * @version %I% %D%
  */
+@Component
 public class BuildingInfo {
     /**
      * list containing trees of locations
@@ -22,7 +24,7 @@ public class BuildingInfo {
     /**
      * Constructs a new <code>BuildingInfo</code> with no trees of locations.
      */
-    public BuildingInfo(){
+    public BuildingInfo() {
         this.locations = new ArrayList<>();
     }
 
@@ -39,7 +41,7 @@ public class BuildingInfo {
      * by {@link #getLocationById(int)}
      * @param location  tree or subtree of <code>Location</code> objects to traverse during search
      * @param id        id to look for in a tree
-     * @return          location with matching id or null if such location wasn't found
+     * @return          location with matching id or null if such location was not found
      */
     private Location getLocationById(Location location, int id) {
         if(location.getId() == id) {
@@ -60,7 +62,7 @@ public class BuildingInfo {
     /**
      * Search stored trees of locations for location with matching id.
      * @param id    id to look for in stored trees
-     * @return      location with matching id or null if such location wasn't found
+     * @return      location with matching id or null if such location was not found
      */
     public Location getLocationById(int id) {
         for(Location location : locations) {
@@ -71,5 +73,4 @@ public class BuildingInfo {
         }
         return null;
     }
-
 }

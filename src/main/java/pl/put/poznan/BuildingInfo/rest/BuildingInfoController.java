@@ -7,17 +7,23 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.put.poznan.BuildingInfo.app.BuildingInfoApplication;
+import pl.put.poznan.BuildingInfo.logic.AveragePriceOfEnergy;
 import pl.put.poznan.BuildingInfo.logic.BuildingInfo;
 import pl.put.poznan.BuildingInfo.model.Location;
 import pl.put.poznan.BuildingInfo.other.LocationDeserializer;
 import pl.put.poznan.BuildingInfo.other.LocationView;
+import pl.put.poznan.BuildingInfo.other.LocationWithEnergyCost;
 
 /**
  * <code>BuildingInfoController</code> class specifies REST mappings in
- * <code>{@link pl.put.poznan.BuildingInfo.app.BuildingInfoApplication}</code>.
+ * <code>{@link BuildingInfoApplication}</code>.
+ *
+ * @version %I% %D%
  */
 @RestController
 @RequestMapping("/")
@@ -25,6 +31,11 @@ public class BuildingInfoController {
 
     private static final Logger logger = LoggerFactory.getLogger(BuildingInfoController.class);
 
+    /**
+     * used to store and access price of energy
+     */
+    @Autowired
+    private AveragePriceOfEnergy energyPrice;
     /**
      * used to store and access buildings
      */
@@ -38,6 +49,9 @@ public class BuildingInfoController {
      */
     private final SimpleModule module = new SimpleModule();
 
+    public BuildingInfoController(AveragePriceOfEnergy energyPrice) {
+        this.energyPrice = energyPrice;
+    }
     /**
      * register custom deserializer <code>{@link LocationDeserializer}</code> for <code>{@link Location}</code> class
      */
@@ -64,7 +78,6 @@ public class BuildingInfoController {
         buildingInfo.save(location);
 
         logger.debug("Building structure created successfully with root ID: {}", location.getId());
-
         return new ResponseEntity<>(location, HttpStatus.OK);
     }
 
@@ -171,5 +184,21 @@ public class BuildingInfoController {
         Location loc = buildingInfo.getLocationById(id);
         if (loc != null) loc.calculateLightingPower();
         return new ResponseEntity<>(loc, HttpStatus.OK);
+    }
+
+    /**
+     * Returns JSON response representing id, name and predicted price of energy of location with matching id
+     * @param id    id to search for
+     * @return      location with matching id
+     */
+    @JsonView(LocationView.EnergyCost.class)
+    @GetMapping(value = "calculateEnergyCost")
+    @ResponseBody
+    public ResponseEntity<LocationWithEnergyCost> calculateEnergyCost(@RequestParam("id") int id) {
+        logger.info("Received GET request: calculateEnergyPrice for ID {}", id);
+        //TODO calculate energy cost of location here
+        LocationWithEnergyCost location = new LocationWithEnergyCost(buildingInfo.getLocationById(id),
+                (float)energyPrice.get());
+        return new ResponseEntity<>(location, HttpStatus.OK);
     }
 }
