@@ -34,7 +34,7 @@ public class BuildingInfoController {
     /**
      * used to store and access price of energy
      */
-    private final AveragePriceOfEnergy energyPrice;
+    private AveragePriceOfEnergy energyPrice;
     /**
      * used to store and access buildings
      */
