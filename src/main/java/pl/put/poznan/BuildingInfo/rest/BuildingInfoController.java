@@ -34,7 +34,6 @@ public class BuildingInfoController {
     /**
      * used to store and access price of energy
      */
-    @Autowired
     private AveragePriceOfEnergy energyPrice;
     /**
      * used to store and access buildings
@@ -192,13 +191,24 @@ public class BuildingInfoController {
      * @return      location with matching id
      */
     @JsonView(LocationView.EnergyCost.class)
-    @GetMapping(value = "calculateEnergyCost")
+    @GetMapping(value = "calculateEnergyCost", produces = "application/json")
     @ResponseBody
     public ResponseEntity<LocationWithEnergyCost> calculateEnergyCost(@RequestParam("id") int id) {
         logger.info("Received GET request: calculateEnergyPrice for ID {}", id);
-        //TODO calculate energy cost of location here
-        LocationWithEnergyCost location = new LocationWithEnergyCost(buildingInfo.getLocationById(id),
-                (float)energyPrice.get());
-        return new ResponseEntity<>(location, HttpStatus.OK);
+
+        Location loc = buildingInfo.getLocationById(id);
+        if (loc == null) {
+            logger.error("Location with ID {} not found", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // PSE rce_pln is in PLN/MWh, heating is stored in kWh -> convert kWh to MWh
+        float pricePlnPerMwh = (float) energyPrice.get();
+        float heatingCost = (loc.getHeating() / 1000.0f) * pricePlnPerMwh;
+
+
+        LocationWithEnergyCost response = new LocationWithEnergyCost(loc, heatingCost);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }
