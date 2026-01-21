@@ -1,0 +1,14 @@
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\app\BuildingInfoApplication.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\logic\AveragePriceOfEnergy.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\logic\BuildingInfo.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\logic\EnergyPricesUpdater.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\model\CompoundLocation.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\model\Location.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\model\Room.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\other\EnergyPrice.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\other\EnergyPricesFetcher.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\other\EnergyPricesResponse.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\other\LocationDeserializer.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\other\LocationView.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\other\LocationWithEnergyCost.java
+E:\Scrum_project\Building-Info\src\main\java\pl\put\poznan\BuildingInfo\rest\BuildingInfoController.java

@@ -1,0 +1,5 @@
+pl\put\poznan\BuildingInfo\logic\BuildingInfoTest$StubLocation.class
+pl\put\poznan\BuildingInfo\logic\AveragePriceOfEnergyTest.class
+pl\put\poznan\BuildingInfo\rest\BuildingInfoControllerTest.class
+pl\put\poznan\BuildingInfo\logic\BuildingInfoTest.class
+pl\put\poznan\BuildingInfo\logic\BuildingInfoTest$StubCompoundLocation.class
